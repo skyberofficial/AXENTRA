@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* Hide horizontal scrollbar for all elements */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide horizontal scrollbar for Webkit browsers */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-darker: rgba(255, 255, 255, 0.85);
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(0, 0, 0, 0.6);
+  --glass-bg-darker: rgba(0, 0, 0, 0.85);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-oxanium: 'Oxanium', sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+html {
+  overflow-x: hidden; /* Prevent horizontal scroll at root */
+}
+
+/* Glassmorphism base styles */
+.glass-effect {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect-darker {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: var(--glass-bg-darker);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile navigation styles */
+.mobile-nav-item {
+  @apply relative flex flex-col items-center justify-center;
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav-item:active {
+  transform: scale(0.95);
+}
+
+.mobile-nav-indicator {
+  @apply absolute inset-0 bg-white/10 rounded-xl -z-10;
+}
+
+/* Font styles */
+.font-oxanium {
+  font-family: var(--font-oxanium);
+  font-weight: 200;
+  letter-spacing: 0.05em;
+}
+
+/* Safe area padding for mobile devices */
+@supports(padding: max(0px)) {
+  .mobile-safe-bottom {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+}
