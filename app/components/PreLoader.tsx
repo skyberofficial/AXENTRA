@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TrueFocus from './TrueFocus';
 
-export default function PreLoader() {
+interface PreLoaderProps {
+    onLoadingChange?: (isLoading: boolean) => void;
+}
+
+export default function PreLoader({ onLoadingChange }: PreLoaderProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -23,6 +27,7 @@ export default function PreLoader() {
         // Hide preloader after 3 seconds
         const timer = setTimeout(() => {
             setIsLoading(false);
+            onLoadingChange?.(false);
             document.body.style.overflow = '';
             window.removeEventListener('scroll', disableScroll);
             window.removeEventListener('wheel', disableScroll);
@@ -38,7 +43,7 @@ export default function PreLoader() {
             window.removeEventListener('touchmove', disableScroll);
             window.removeEventListener('contextmenu', disableRightClick);
         };
-    }, [isLoading]);
+    }, [isLoading, onLoadingChange]);
 
     return (
         <AnimatePresence>

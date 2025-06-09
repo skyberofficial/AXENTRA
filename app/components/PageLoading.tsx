@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DecryptedText from './DecryptedText';
 
-export default function PageLoading() {
+interface PageLoadingProps {
+    onLoadingChange?: (isLoading: boolean) => void;
+}
+
+export default function PageLoading({ onLoadingChange }: PageLoadingProps) {
     const pathname = usePathname();
     const [pageName, setPageName] = useState('');
     const [isVisible, setIsVisible] = useState(false);
@@ -27,16 +31,19 @@ export default function PageLoading() {
         
         // Show loading state
         setIsVisible(true);
+        onLoadingChange?.(true);
         
         // Hide after animation
         const hideTimer = setTimeout(() => {
             setIsVisible(false);
+            onLoadingChange?.(false);
         }, 2000); // Reduced to 2 seconds since we only show one animation now
 
         return () => {
             clearTimeout(hideTimer);
+            onLoadingChange?.(false);
         };
-    }, [pathname, isFirstHomeVisit]);
+    }, [pathname, isFirstHomeVisit, onLoadingChange]);
 
     if (!isVisible) return null;
 
